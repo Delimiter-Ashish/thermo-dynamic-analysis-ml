@@ -2,7 +2,7 @@
 
 > **A Hybrid Physics–Machine Learning System for High-Fidelity Thermodynamic Property Prediction**
 
-![Hero](images/end_to_end_workflow.png)
+![Hero](images/baner.png)
 
 **Hybrid Physics–Machine Learning Platform for Thermodynamic Property Prediction**
 
