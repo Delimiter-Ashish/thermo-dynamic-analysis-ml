@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>TheRMO_DynaMIC AnalySIS</title>
+
+        <!-- CSS FILES -->                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+        
+        <link href="static\bootstrap.min.css" rel="stylesheet">
+
+        <link href="static\bootstrap-icons.css" rel="stylesheet">
+
+        <link href="static/thermo.css" rel="stylesheet">
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+        <style>
+            body {
+                background-color: #343a40;
+                
+            }
+            .modal-content {
+                background-color: #343a40;
+                color: white;
+            }
+            .table-dark {
+                background-color: #454d55;
+            }
+            .image-medium {
+                width: 200px; /* Set a medium width for the images */
+                height: auto; /* Maintain aspect ratio */
+                transition: all 0.3s ease; /* Add transition effect for smooth scaling */
+                cursor: pointer; /* Change cursor to pointer */
+            }
+
+            .image-container {
+                width: 200px; /* Set a fixed width for the container */
+                height: 200px; /* Set a fixed height for the container */
+                overflow: hidden; /* Hide overflow content */
+                margin: 0 auto; /* Center the container */
+            }
+
+            .image-medium:hover {
+                transform: scale(1.1); /* Enlarge the image on hover */
+            }
+
+            .carousel-control-prev-icon,
+            .carousel-control-next-icon {
+            height: 100px;
+            width: 100px;
+            background-size: 100%, 100%;
+            background-image: none;
+            }
+
+            .carousel-control-next-icon:after
+            {
+            content: '>';
+            font-size: 55px;
+            color: black;
+            }
+
+            .carousel-control-prev-icon:after {
+            content: '<';
+            font-size: 55px;
+            color: black;
+            }
+
+        </style>
+    </head>
+    
+    <body>
+
+        <main>
+
+            <header class="site-header">
+                <div class="container">
+                    <div class="row justify-content-between">
+
+                        <div class="col-lg-12 col-12 d-flex align-items-center">
+                            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="/">
+                                <i class="bi-box"></i>
+
+                                <span>
+                                    TheRMO_DynaMIC AnalySIS
+                                </span>
+                            </a>
+
+                            <div>
+                                <a href="/" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">CREATORS
+                                    <i class="bi-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+
+                            <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+
+
+            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+                <div class="offcanvas-header">                    
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                
+                <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+                    <nav>
+                        <ul>
+                            <li><a href="/login">Admin Login</a></li>
+                            <li><a href="/Usermaunal">User Manual</a></li>
+                            <li><a href="/analysis">AnalySIS</a></li>
+                            <li><a href="#">Contact Form</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Update the modal title to "About Us" -->
+                                <h2 class="modal-title" id="subscribeModalLabel">About Us</h2>
+                                <p>We are the Joshi brothers. Welcome to our thermodynamic analysis site! Here, you can find the specific heat capacity (Cp), enthalpy (H), and entropy (S) using temperature and chemical symbols. We provide comprehensive data and tools to assist you in your thermodynamic calculations.</p>
+                             </div>
+                            <!-- Removed the form and notification button -->
+                        </div>
+                    </div>
+            </div>
+
+
+            <section class="hero-section hero-bg2 justify-content-center">
+                <div><h2 class="page-404-title text-center mx-auto mt-5">AnalySIS</h2></div>
+                <div class="container">
+                    {% if show_welcome %}
+                        <div class="alert alert-info" role="alert">
+                            <ul>You have been logged out. Thanks!</ul>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="container">
+                    <!-- Prediction Form Card -->
+                    <div class="card text-white bg-dark mb-3">
+                        <div class="card-header text-center">Prediction Form</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="specieID" class="form-label">Enter SPECIE ID</label>
+                                    <input class="form-control" list="datalistOptionsSpecieID" id="specieID" placeholder="Type to search...">
+                                    <datalist id="datalistOptionsSpecieID">
+                                        <option value='SP1162'>
+                                        <option value='SP1434'>
+                                        <option value="SP1998">
+                                        <option value="SP1999">
+                                        <option value="SP2000">
+                                        <option value="SP2001">
+                                        <option value="SP752">
+                                    </datalist>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="chemSymb" class="form-label">Enter Chemical Symbol</label>
+                                    <input class="form-control" list="datalistOptionsChemSymb" id="chemSymb" placeholder="Type to search...">
+                                    <datalist id="datalistOptionsChemSymb">
+                                        <option value='(CH3COOH)2'>
+                                        <option value='(HCOOH)2'>
+                                        <option value="(WO3)2">
+                                        <option value="(WO3)3">
+                                        <option value="(WO3)4">
+                                        <option value="(WO3)5">
+                                        <option value="Ag">
+                                        <option value="O">
+                                        <option value="F">
+                                        <option value="Ne">
+                                    </datalist>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="temp" class="form-label">Temperature</label>
+                                    <input class="form-control" list="datalistOptionstemp" id="temp" placeholder="Type to search...">
+                                    <datalist id="datalistOptionstemp"></datalist>
+                                    <script>
+                                        const tempDropdown = document.getElementById('datalistOptionstemp');
+                                        for (let i = 200; i <= 6000; i++) {
+                                            const option = document.createElement('option');
+                                            option.value = i;
+                                            option.textContent = i;
+                                            tempDropdown.appendChild(option);
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary" onclick="predict()">PREDICT</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-none" id="result0">
+                        <div class="col-6">
+                            <!-- Result Card -->
+                            <div class="card text-white bg-dark mb-3">
+                                <div class="card-header text-center">Prediction Results</div>
+                                <div class="card-body">                                                                    
+                                    <div id="carouselExampleIndicators" class="carousel slide">
+                                        <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                        </div>
+                                        <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img id="cpImage" src="" alt="Cp Graph" class="d-block w-100 image-medium" data-bs-toggle="modal" data-bs-target="#cpModal">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img id="hImage" src="" alt="H Graph" class="d-block w-100 image-medium" data-bs-toggle="modal" data-bs-target="#hModal">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img id="sImage" src="" alt="S Graph" class="d-block w-100 image-medium" data-bs-toggle="modal" data-bs-target="#sModal">
+                                        </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>                                    
+                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!-- Result Card -->
+                            <div class="card text-white bg-dark mb-3">
+                                <div class="card-header text-center">Prediction Results</div>
+                                <div class="card-body">
+                                 
+                                            <div class="table-responsive mt-4" style="height: 300px; overflow-y: auto;">
+                                                <table class="table table-dark table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Property</th>
+                                                            <th scope="col">Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="resultTable">
+                                                        <!-- Results will be appended here -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                   
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            
+
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="static/jquery.min.js"></script>
+        <script src="static/bootstrap.bundle.min.js"></script>
+        <script src="js/countdown.js"></script>
+        <script src="static/init.js"></script>
+        <script>
+            function predict() {
+                const specieID = document.getElementById('specieID').value;
+                const chemSymb = document.getElementById('chemSymb').value;
+                const temp = document.getElementById('temp').value;
+                var element = document.getElementById('result0');
+                element.classList.remove('d-none');
+        
+                if (!specieID || !chemSymb || !temp) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+        
+                $.ajax({
+                    url: '/predict',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        specie_id: specieID,
+                        chemical_symbol: chemSymb,
+                        temperature: temp
+                    }),
+                    success: function(response) {
+                        const resultTable = document.getElementById('resultTable');
+                        resultTable.innerHTML = `
+                            <tr>
+                                <td>Cp</td>
+                                <td>${response.predicted_cp}</td>
+                            </tr>
+                            <tr>
+                                <td>H</td>
+                                <td>${response.predicted_h}</td>
+                            </tr>
+                            <tr>
+                                <td>S</td>
+                                <td>${response.predicted_s}</td>
+                            </tr>
+                        `;
+                         // Update image sources based on specie ID
+                        document.getElementById('cpImage').src = `static/graph/specie_id_${specieID}_plot_CP.png`;
+                        document.getElementById('hImage').src = `static/graph/specie_id_${specieID}_plot_H.png`;
+                        document.getElementById('sImage').src = `static/graph/specie_id_${specieID}_plot_S.png`;
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+            
+        </script>
+    </body>
+</html>
+
+

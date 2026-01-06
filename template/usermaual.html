@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>TheRMO_DynaMIC AnalySIS | User Manual</title>
+
+  <!-- load CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">    
+  <link rel="stylesheet" href="static/bootstrap.min.css">                                        
+  <link rel="stylesheet" href="static/UMstyle.css">
+  <style>
+    .custom-img {
+            max-width: 800px; /* Adjust the max-width to reduce the image width */
+            max-height: 400px; /* Ensures the image maintains its aspect ratio */
+            display: block; /* Ensures the image behaves correctly within its container */
+            margin: 0 auto; /* Centers the image horizontally */
+        }
+</style>
+  <script>
+    var renderPage = true;
+
+    if(navigator.userAgent.indexOf('MSIE')!==-1
+      || navigator.appVersion.indexOf('Trident/') > 0){
+        /* Microsoft Internet Explorer detected in. */
+        alert("Please view this in a modern browser such as Chrome or Microsoft Edge.");
+        renderPage = false;
+    }
+  </script>
+
+</head>
+
+<body>
+  <!-- Loader -->
+  <div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+  </div>
+
+ <div class="container">
+
+ <!-- 1st section -->
+<section class="row tm-section">
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 p-0">
+      <div class="tm-flex-center p-5 tm-bg-color-primary tm-section-min-h">
+          <h1 class="tm-text-color-white tm-site-name">Welcome to Thermo_Dynamic Analysis <br><br>User Manual </h1>
+      </div>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <div class="tm-flex-center p-5">
+          <q class="tm-quote tm-text-color-gray">
+              Please explore our website. You can go to the Analysis tab from the navbar or, on the index page, click on the "Explore More" button. Either way, you'll be directed to the analysis section where you can find and predict specific heat capacity (Cp), enthalpy (H), and entropy (S) using the specie ID, chemical symbol, and temperature. Note that this is AI-generated thermodynamic analysis and may contain errors.
+              <br><br>
+              Our app is designed to provide comprehensive data and tools to assist you in your thermodynamic calculations. Whether you are a student, researcher, or professional, our platform offers valuable insights and accurate predictions for a wide range of materials and conditions. Remember to double-check the results and consult additional resources if necessary, as AI predictions can occasionally be inaccurate.
+          </q>
+      </div>
+  </div>
+</section>
+
+<!-- 2nd section -->
+<section class="row tm-section tm-col-md-reverse">
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+      <div class="tm-flex-center p-5">
+          <div class="tm-md-flex-center">
+              <h2 class="tm-text-color-primary mb-4">Instructions for Admins</h2>
+              <p class="mb-4">
+                  As an admin, you have access to the admin form where you can manage data generation, Training And Testing. After logging in, navigate to the Data Generation page to upload your CSV file. This will allow you to generate the necessary training and testing files.
+              </p>
+              <p class="mb-4">
+                  Once training is complete, hitting the "Test" button will log you out and redirect you back to the analysis page. You can then perform new training and receive updated responses based on the new data. Ensure that the data is accurate and formatted correctly to achieve the best results.
+              </p>
+              <a href="/login" class="btn btn-primary float-lg-right tm-md-align-center">Admin Login</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 p-0">
+      <div class="tm-flex-center p-5 tm-bg-color-primary">
+          <div class="tm-max-w-400 tm-flex-center tm-flex-col">
+            <img src="static/ss/admin.png" alt="Admin Image" class="square-image">
+            <br>
+              <p class="tm-text-color-white small tm-font-thin mb-0">
+                  Ensure you follow the correct procedures for data generation and training. Accurate and well-prepared data will lead to more reliable and effective thermodynamic analysis results.
+              </p>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+<!-- 3rd Section -->
+<section class="row tm-section tm-mb-30">
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 p-0 text-center">
+    <img src="static/ss/analysis2.png" alt="Image" class="custom-img">
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div class="tm-flex-center p-5">
+      <div class="tm-flex-center tm-flex-col">
+        <h2 class="tm-align-left">Model Information and Data Processing</h2>
+        <p>
+          Our analysis platform utilizes a Random Forest model to predict thermodynamic properties such as specific heat capacity (Cp), enthalpy (H), and entropy (S). The Random Forest algorithm is chosen for its robustness and accuracy in handling complex datasets.
+        </p>
+        <p>
+          To ensure the model receives meaningful inputs, we have implemented one-hot encoding for the chemical symbols and specie IDs. One-hot encoding is a process that converts categorical data into a format that can be provided to machine learning algorithms to improve their performance.
+        </p>
+        <p>
+          This method allows the model to understand the categorical variables effectively, ensuring that each chemical symbol and specie ID is accurately represented during the training process.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 4th Section -->
+<section class="row tm-section tm-mb-30">
+  <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+      <div class="tm-flex-center pl-5 pr-5 pt-5 pb-5">
+          <div class="tm-md-flex-center">
+              <h2 class="mb-4 tm-text-color-primary">Advanced Features of TheRMO_DynaMIC AnalySIS</h2>
+              <p>
+                  Our platform offers a range of advanced features designed to provide accurate and comprehensive thermodynamic analyses. These features include:
+              </p>
+              <ul>
+                  <li><strong>High Precision Predictions:</strong> Utilizing state-of-the-art Random Forest algorithms, our platform ensures high accuracy in predicting specific heat capacity (Cp), enthalpy (H), and entropy (S).</li>
+                  <li><strong>Intuitive User Interface:</strong> The user-friendly interface allows for easy navigation and access to various tools and features, making it simple for users to input data and retrieve results.</li>
+                  <li><strong>Comprehensive Data Visualization:</strong> Visualize your data and results with our built-in graphing and charting tools, helping you to better understand and interpret your findings.</li>
+                  <li><strong>Flexible Data Input:</strong> Supports various input formats including manual entry and CSV uploads, ensuring you can work with your data in the most convenient way possible.</li>
+                  <li><strong>Robust Data Processing:</strong> Our platform handles complex datasets efficiently, providing reliable outputs even with large volumes of data.</li>
+              </ul>
+              <p class="mb-4">
+                  These features are designed to provide researchers, students, and professionals with the tools they need to conduct thorough thermodynamic analyses. By leveraging advanced machine learning techniques and an intuitive interface, TheRMO_DynaMIC AnalySIS helps you achieve precise and insightful results.
+              </p>
+          </div>
+      </div>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 text-xl-right text-md-center text-center mt-5 mt-lg-0 pr-lg-0">
+      <img src="static/ss/modal2.jpg" alt="Image" class="img-fluid">
+  </div>
+</section>
+
+<!--  -->
+
+<!-- Footer -->
+<div class="row">
+  <div class="col-lg-12">
+    <p class="text-center small tm-copyright-text mb-0">Copyright &copy; <span class="tm-current-year">2024</span> Joshi brothers  | Designed by <a href="#" class="tm-text-color-gray" target="_parent">A_K</a></p>
+  </div>
+</div>
+</div>
+<!-- load JS -->
+<script src="static/jquery-3.2.1.slim.minUM.js"></script>        
+<script>
+
+  /* DOM is ready
+  ------------------------------------------------*/
+  $(function(){
+
+    if(renderPage) {
+      $('body').addClass('loaded');
+    }
+
+    $('.tm-current-year').text(new Date().getFullYear());  // Update year in copyright
+  });
+
+</script>
+
+</body>
+</html>

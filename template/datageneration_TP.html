@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheRMO_DynaMIC AnalySIS</title>
+    <!-- CSS FILES -->                
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    <link href="static/bootstrap.min.css" rel="stylesheet">
+    <link href="static/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/thermo.css" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <header class="site-header">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-lg-12 col-12 d-flex align-items-center">
+                        <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{{ url_for('index') }}">
+                            <i class="bi-box"></i>
+                            <span>TheRMO_DynaMIC AnalySIS</span>
+                        </a>
+                        <div>
+                            {% if current_user.is_authenticated %}
+                                <a href="{{ url_for('logout', next=url_for('login')) }}" class="custom-btn custom-border-btn btn">LOGOUT
+                                    <i class="bi-arrow-right ms-2"></i>
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('login') }}" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">CREATORS
+                                    <i class="bi-arrow-right ms-2"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+            <div class="offcanvas-header">                    
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            
+            <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="/"> Home</a>
+                            <i class="bi-arrow-down ms-2"></i>
+                        </li>
+
+                        <li>
+                            <a href="#">You are here </a>
+                            <i class="bi-arrow-down ms-2"></i>
+                        </li>
+
+                        <li>
+                            <a href="#">DATA GENERATION</a>
+                            <i class="bi-arrow-down ms-2"></i>
+
+                        </li>
+
+                        <li>
+                            <a href="#">Train now</a>
+                            <i class="bi-arrow-down ms-2"></i>
+                        </li>
+
+                        <li>
+                            <a href="#">Test</a>
+                            <i class="bi-arrow-down ms-2"></i>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class="modal-title" id="subscribeModalLabel">About Us</h2>
+                        <p>We are the Joshi brothers. Welcome to our thermodynamic analysis site! Here, you can find the specific heat capacity (Cp), enthalpy (H), and entropy (S) using temperature and chemical symbols. We provide comprehensive data and tools to assist you in your thermodynamic calculations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="hero-section hero-bg d-flex justify-content-center align-items-center">
+            <div class="container data-container">
+                <div class="container">
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        <div class="alert alert-info" role="alert">
+                          <ul>
+                            {% for message in messages %}
+                              <li>{{ message }}</li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      {% endif %}
+                    {% endwith %}
+                </div>
+            
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="data-heading text-center">DATA GENERATION</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="upload-container text-center">
+                            <label for="csvFileInput" class="upload-btn">Upload</label>
+                            <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div id="csvPreview" class="table-container"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="button-container">
+                            <button id="generateButton" class="generate-btn btn btn-primary btn-lg btn-block" style="display: none;">Generate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <span class="close" onclick="togglePopup()">&times;</span>
+                <h2>Train Your CSV Here</h2>
+                <p>Train your CSV file using our Random Forest model. Our system will analyze it to provide insights and predictions. After training, you'll receive metrics such as Mean Squared Error (MSE) and R-squared (R2), helping you evaluate the performance of your model and make informed decisions to optimize it further.</p>
+                <div class="btn-container">
+                    <button id="trainButton" class="btn btn-primary">Train Now</button>
+                    <button id="testButton" class="btn btn-secondary" style="display: none;">Test</button>
+                </div>
+                <div id="loadingContainer" style="display: none;">
+                    <div id="loadingAnimation" class="loading-animation">
+                        <img src="static/images/loader3.gif" alt="Loading...">
+                    </div>
+                </div>
+                <div id="waitMessage" class="notification" style="display: none;">
+                    <div class="notification-header">
+                        <h3 class="notification-title">Please wait</h3>
+                        <i class="fa fa-times notification-close"></i>
+                    </div>
+                    <div class="notification-container">
+                        <div class="notification-content">
+                            <p class="notification-text">Training is in progress...</p>
+                        </div>
+                        <span class="notification-status"></span>
+                    </div>
+                </div>
+                <div id="trainingMessage" class="text-center mb-4" style="display: none;">
+                    <p>Training complete!</p>
+                    <p id="mseMessage"></p>
+                    <p id="r2Message"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="cancelNotification" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Training has been canceled.
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <!-- <script>
+            function cancelTraining() {
+                // Hide the popup
+                togglePopup();
+                // Show the cancel notification
+                var cancelNotification = new bootstrap.Toast(document.getElementById('cancelNotification'));
+                cancelNotification.show();
+            }
+        </script> -->
+          
+          
+    </main>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p><i class="fa fa-copyright"></i> Copyright 2024 by Joshi brothers <br></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+<!-- JAVASCRIPT FILES -->
+<script src="static\jquery.min.js"></script>
+<script src="static\bootstrap.bundle.min.js"></script>
+<script src="js/countdown.js"></script>
+<script src="static\init.js"></script>
+<script>
+    document.getElementById('csvFileInput').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var csvData = event.target.result;
+                displayCSV(csvData);
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    function displayCSV(csvData) {
+        var lines = csvData.split('\n');
+        var html = '<table id="csvTable" class="table">';
+        for (var i = 0; i < Math.min(5, lines.length); i++) {
+            var cells = lines[i].split(',');
+            html += '<tr>';
+            for (var j = 0; j < cells.length; j++) {
+                html += '<td>' + cells[j] + '</td>';
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+        document.getElementById('csvPreview').innerHTML = html;
+
+        // Show the Generate button
+        document.getElementById('generateButton').style.display = 'block';
+    }
+
+    function generateDataset() {
+        var fileInput = document.getElementById('csvFileInput');
+        var file = fileInput.files[0];
+
+        if (!file) {
+            alert('Please select a file.');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('file', file);
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(csvData => {
+            // Call downloadCSV function to download the generated CSV file
+            downloadCSV(csvData);
+            // Show success alert
+            alert('File generated and downloaded successfully!');
+            // Display the popup
+            togglePopup();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function downloadCSV(csvData) {
+        // Extract headers from the first row of csvData (assuming csvData is an array of objects)
+        if (csvData.length === 0) {
+            console.error('Empty CSV data.');
+            return;
+        }
+        const headers = Object.keys(csvData[0]);
+
+        // Create CSV string including headers and rows
+        const csvRows = [
+            headers.join(','),
+            ...csvData.map(row => headers.map(header => row[header]).join(','))
+        ];
+        const csvString = csvRows.join('\n');
+
+        // Create a Blob from the CSV string
+        var blob = new Blob([csvString], { type: 'text/csv' });
+
+        // Create a download link
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'generated_CP_H_and_S_dataset.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+
+       // Function to toggle the popup
+    function togglePopup() {
+        var popup = document.getElementById('popup');
+        popup.classList.toggle('active');
+
+        if (!popup.classList.contains('active')) {
+            // Reset popup state when closed
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('waitMessage').style.display = 'none';
+            document.getElementById('trainingMessage').style.display = 'none';
+            document.getElementById('trainButton').style.display = 'block';
+        }
+    }
+
+    // Add event listener to the Generate button
+    document.getElementById('generateButton').addEventListener('click', generateDataset);
+    
+</script>
+<script>
+    // Function to toggle the visibility of the Test button
+    function toggleTestButtonVisibility(show) {
+        var testButton = document.getElementById('testButton');
+        if (show) {
+            testButton.style.display = 'block';
+        } else {
+            testButton.style.display = 'none';
+        }
+    }
+
+    document.getElementById('trainButton').addEventListener('click', function() {
+    // Show loading animation
+    document.getElementById('loadingContainer').style.display = 'block';
+    // Show "Please wait" message
+    document.getElementById('waitMessage').style.display = 'block';
+
+    // Make POST request to train the model
+    fetch('/train', {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Hide loading animation after training completes
+        document.getElementById('loadingContainer').style.display = 'none';
+        // Hide "Please wait" message
+        document.getElementById('waitMessage').style.display = 'none';
+
+        // Show training completion message
+        document.getElementById('trainingMessage').style.display = 'block';
+
+        // Show mean squared error and r-squared messages
+        document.getElementById('mseMessage').innerHTML = `Mean Squared Error for Cp: ${data.mse_cp}<br>Mean Squared Error for H: ${data.mse_h}<br>Mean Squared Error for S: ${data.mse_s}`;
+        document.getElementById('r2Message').innerHTML = `R-squared for Cp: ${data.r2_cp}%<br>R-squared for H: ${data.r2_h}%<br>R-squared for S: ${data.r2_s}%`;
+
+        // Show the Test button
+        document.getElementById('testButton').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle error
+        // Hide loading animation in case of error
+        document.getElementById('loadingContainer').style.display = 'none';
+        // Hide "Please wait" message in case of error
+        document.getElementById('waitMessage').style.display = 'none';
+    });
+});
+
+
+    /// Event listener for the Test button
+    document.getElementById('testButton').addEventListener('click', function() {
+    fetch('/logout?next=' + encodeURIComponent('/analysis'), {
+        method: 'GET',
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.ok) {
+            // Redirect to analysis page after logout
+            location.replace('/analysis?show_welcome=true');
+        } else {
+            console.error('Logout failed:', response.statusText);
+            // Handle error condition if needed
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    
+    // Prevent back navigation
+    history.replaceState(null, '', location.href);
+});
+
+
+</script>
+
+<script>
+    function cancelTraining() {
+        // Hide the popup
+        togglePopup();
+        
+        // Send a request to cancel the training process
+        fetch('/cancel_training', {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                // Show the cancel notification if the request is successful
+                var cancelNotification = new bootstrap.Toast(document.getElementById('cancelNotification'));
+                cancelNotification.show();
+            } else {
+                console.error('Failed to cancel training.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    // Function to toggle the popup
+    function togglePopup() {
+        var popup = document.getElementById('popup');
+        var loadingContainer = document.getElementById('loadingContainer');
+        var waitMessage = document.getElementById('waitMessage');
+        var trainingMessage = document.getElementById('trainingMessage');
+        var trainButton = document.getElementById('trainButton');
+
+        popup.classList.toggle('active');
+
+        if (!popup.classList.contains('active')) {
+            // Reset popup state when closed
+            loadingContainer.style.display = 'none';
+            waitMessage.style.display = 'none';
+            trainingMessage.style.display = 'none';
+            trainButton.style.display = 'block';
+        }
+    }
+// Event listener for the close button in the "Please wait" message
+document.querySelector('.notification-close').addEventListener('click', function() {
+    // Hide the wait message
+    document.getElementById('waitMessage').style.display = 'none';
+});
+
+// Event listener for the cancel button in the main popup
+document.querySelector('#popup .close').addEventListener('click', function() {
+    console.log('Close button in main popup clicked');
+    // Call the function to cancel the training process
+    cancelTraining();
+    // Close the popup
+    togglePopup();
+});
+
+
+</script>
+
+</body>
+</html>
+

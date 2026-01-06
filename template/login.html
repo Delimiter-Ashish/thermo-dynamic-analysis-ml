@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheRMO_DynaMIC AnalySIS | Login page</title>
+
+    <!-- CSS FILES -->                
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='thermo.css') }}" rel="stylesheet">
+    
+</head>
+<body>
+
+<main>
+    <header class="site-header">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-lg-12 col-12 d-flex align-items-center">
+                    <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="/">
+                        <i class="bi-box"></i>
+                        <span>TheRMO_DynaMIC AnalySIS</span>
+                    </a>
+                    <div>
+                        <a href="login.html" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">CREATORS
+                            <i class="bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                    <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+        <div class="offcanvas-header">                    
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        
+        <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+            <nav>
+                <ul>
+                    <li><a class="active" href="{{ url_for('login') }}">Login Form</a></li>
+                    <li><a href="dummyregister.html">Create an account</a></li>
+                    <li><a href="/analysis">AnalySIS</a></li>
+                    <li><a href="#">Contact Form</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="modal-title" id="subscribeModalLabel">About Us</h2>
+                    <p>We are the Joshi brothers. Welcome to our thermodynamic analysis site! Here, you can find the specific heat capacity (Cp), enthalpy (H), and entropy (S) using temperature and chemical symbols. We provide comprehensive data and tools to assist you in your thermodynamic calculations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero-section d-flex justify-content-center align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-12 mx-auto">
+                    <form id="loginForm" class="custom-form login-form" role="form" method="post" action="{{ url_for('login') }}">
+                        <h2 class="hero-title text-center mb-4 pb-2">Admin Login</h2>
+                        <h6 class="hero-title text-center mb-4 pb-2 text-danger">Authorized Personnel Only</h6>
+                        
+                        <!-- Flash messages for login errors -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        
+                        <div class="form-floating mb-4 p-0">
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autocomplete="off">
+                            <label for="username">Username</label>
+                        </div>
+                        <div class="form-floating p-0">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required autocomplete="off">
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-lg-5 col-12">
+                                <button type="submit" class="form-control">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="video-wrap">
+            <video autoplay loop muted class="custom-video" poster="">
+                <source src="{{ url_for('static', filename='images/home_thermo.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p><i class="fa fa-copyright"></i> Copyright 2024 by CSG DIVISION HEMRL | Design: <a href="#" rel="sponsored" target="_parent">A_K</a><br></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</main>
+
+<!-- JAVASCRIPT FILES -->
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='init.js') }}"></script>
+<script>
+    // Reset form fields on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('loginForm');
+        if (form) {
+            form.reset(); // Reset the form fields
+        }
+    });
+
+    // Ensure no form data is cached when navigating back
+    window.addEventListener('pageshow', function(event) {
+        var form = document.getElementById('loginForm');
+        if (form && event.persisted) {
+            // If the event is persisted, it means the page is loaded from the cache
+            form.reset(); // Reset the form fields on page show (back navigation)
+
+            // Reload the page to ensure a fresh state
+            location.reload();
+        }
+    });
+</script>
+
+</body>
+</html>
