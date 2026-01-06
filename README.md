@@ -1,4 +1,4 @@
-# 🔥 TheRMO_DynaMIC AnalySIS
+# TheRMO_DynaMIC AnalySIS
 
 > **A Hybrid Physics–Machine Learning System for High-Fidelity Thermodynamic Property Prediction**
 
@@ -12,7 +12,7 @@ This project demonstrates a hybrid approach where physics-based equations are us
 
 ---
 
-## 🚀 Why This Matters (Scientific Contribution)
+## Why This Matters (Scientific Contribution)
 
 Modern thermodynamic property estimation relies on sparse experimental data and expensive simulations. This project demonstrates a scalable alternative: using physics-based equations to synthesize large, high-resolution datasets and training machine learning models as fast surrogate predictors.
 
@@ -26,7 +26,7 @@ This hybrid Physics–ML approach significantly reduces computational cost while
 
 ---
 
-## 🧠 Scientific & Technical Innovations
+## Scientific & Technical Innovations
 
 * **Physics-Guided Data Augmentation**: Expanded a limited in-house dataset into over **3.6 million temperature-resolved samples** using analytical thermodynamic equations.
 * **Hybrid Modeling**: Combined first-principles equations with supervised ML to build fast surrogate models.
